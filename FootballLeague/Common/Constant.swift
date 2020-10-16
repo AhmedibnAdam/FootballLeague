@@ -10,7 +10,6 @@ import Foundation
 
 
 class Constant {
-    static let base = "https://restcountries.eu/"
-    static let api = "rest/"
+    static let base = "https://api.football-data.org"
     static let version = "v2/"
 }
