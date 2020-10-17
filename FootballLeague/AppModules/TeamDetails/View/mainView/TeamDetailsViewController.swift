@@ -52,7 +52,7 @@ class TeamDetailsViewController: UIViewController {
         guard let url = team?.crestURL else {
             return
         }
-        OpenURl(url: url)
+        openURl(url: url)
     }
     @IBAction func makeCall(_ sender: UIButton) {
         guard let phone = team?.phone else {
@@ -65,7 +65,7 @@ class TeamDetailsViewController: UIViewController {
         guard let url = team?.website else {
             return
         }
-        OpenURl(url: url)
+        openURl(url: url)
     }
    
     @objc func backAction() {
@@ -121,7 +121,7 @@ extension TeamDetailsViewController{
         tableView.reloadData()
         collectionView.reloadData()
     }
-    fileprivate func OpenURl(url: String) {
+    fileprivate func openURl(url: String) {
         if let url = URL(string: url) {
             UIApplication.shared.open(url)
         }

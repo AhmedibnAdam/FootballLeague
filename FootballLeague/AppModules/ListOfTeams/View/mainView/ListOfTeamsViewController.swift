@@ -41,6 +41,7 @@ class ListOfTeamsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         getTeam()
     }
+    
 }
 
 extension ListOfTeamsViewController: IListOfTeamsViewController {
@@ -69,6 +70,11 @@ extension ListOfTeamsViewController: IListOfTeamsViewController {
          self.tableView.reloadData()
         indicator.stopAnimating()
      }
+    fileprivate func openURl(url: String) {
+        if let url = URL(string: url) {
+            UIApplication.shared.open(url)
+        }
+    }
   
     func getTeam(){
         interactor?.getTeams()
@@ -115,6 +121,8 @@ extension ListOfTeamsViewController: UITableViewDelegate, UITableViewDataSource 
             cell.clubColor.text = team?.clubColors
             cell.teamWESite.setTitle(team?.website, for: .normal)
             cell.venu.text = team?.venue
+            cell.teamWESite.tag = indexPath.row
+            cell.teamWESite.addTarget(self, action: #selector(showWebsSite), for: .touchUpInside)
         }
         else{
             let team = teamsArr[indexPath.row]
@@ -122,9 +130,20 @@ extension ListOfTeamsViewController: UITableViewDelegate, UITableViewDataSource 
             cell.clubColor.text = team.clubColors
             cell.teamWESite.setTitle(team.website, for: .normal)
             cell.venu.text = team.venue
+            cell.teamWESite.tag = indexPath.row
+            cell.teamWESite.addTarget(self, action: #selector(showWebsSite), for: .touchUpInside)
         }
        
         return cell
+    }
+    @objc func showWebsSite(sender: UIButton) {
+        if !isOFFLine {
+            guard let url = self.teamsArr[sender.tag].website else {
+                return
+            }
+            self.openURl(url: url)
+        }
+        
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
