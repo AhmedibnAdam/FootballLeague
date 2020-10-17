@@ -80,6 +80,7 @@ extension ListOfTeamsViewController {
         let cell = UINib(nibName: "TeamTableViewCell", bundle: nil)
         tableView.register(cell, forCellReuseIdentifier: "TeamTableViewCell")
     }
+  
 }
 // MARK: - TableView Delegate Methods
 extension ListOfTeamsViewController: UITableViewDelegate, UITableViewDataSource {
@@ -105,6 +106,14 @@ extension ListOfTeamsViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView.frame.size.height / 6
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let teamID = teamsArr[indexPath.row].id else {
+            return
+        }
+        var parameters = [String: Any]()
+        parameters["team_id"] = teamID
+        router?.navigateToTeamDetails(parameters: parameters)
+    }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
@@ -115,5 +124,6 @@ extension ListOfTeamsViewController: UITableViewDelegate, UITableViewDataSource 
             }
         }
     }
+    
     
 }

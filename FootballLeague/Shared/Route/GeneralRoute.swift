@@ -12,20 +12,18 @@ import Foundation
 import UIKit
 
 enum GeneralRoute: IRouter {
-
-     case teamDetails
-     case ListOfTeams
-     
-  
+    case ListOfTeams
+    case teamDetails(parameters: [String: Any])
+    
 }
 
 extension GeneralRoute {
     var module: UIViewController? {
-         switch self {
-         case .teamDetails:
-            return TeamDetailsConfiguration.setup()
+        switch self {
         case .ListOfTeams:
             return ListOfTeamsConfiguration.setup()
-         }
+        case .teamDetails(let parameters):
+            return TeamDetailsConfiguration.setup(parameters: parameters)
+        }
     }
 }

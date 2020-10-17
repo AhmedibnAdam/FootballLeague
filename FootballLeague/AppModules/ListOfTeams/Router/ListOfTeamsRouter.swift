@@ -11,7 +11,7 @@
 import UIKit
 
 protocol IListOfTeamsRouter: class {
-	// do someting...
+    func navigateToTeamDetails(parameters: [String: Any]) 
 }
 
 class ListOfTeamsRouter: IListOfTeamsRouter {	
@@ -20,4 +20,8 @@ class ListOfTeamsRouter: IListOfTeamsRouter {
 	init(view: ListOfTeamsViewController?) {
 		self.view = view
 	}
+    
+    func navigateToTeamDetails(parameters: [String: Any])  {
+        view?.navigate(type: .modalWithNavigation, module: GeneralRoute.teamDetails(parameters: parameters), completion: nil)
+    }
 }

@@ -12,6 +12,7 @@ import UIKit
 
 protocol ITeamDetailsInteractor: class {
 	var parameters: [String: Any]? { get set }
+    func getTeamDetails()
 }
 
 class TeamDetailsInteractor: ITeamDetailsInteractor {
@@ -22,5 +23,21 @@ class TeamDetailsInteractor: ITeamDetailsInteractor {
     init(presenter: ITeamDetailsPresenter, worker: ITeamDetailsWorker) {
     	self.presenter = presenter
     	self.worker = worker
+    }
+    func getTeamDetails(){
+        guard let params = parameters else {
+            return
+        }
+        worker?.getTeamDetails(parameters: params, complition: { (error, success, teams) in
+            if success {
+                guard let teamsData = teams else {
+                    return
+                }
+                self.presenter?.showTeamDetails(team: teamsData)
+            }
+            else {
+                
+            }
+        })
     }
 }

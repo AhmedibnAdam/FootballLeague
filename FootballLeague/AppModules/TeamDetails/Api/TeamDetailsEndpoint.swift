@@ -12,36 +12,30 @@ import Foundation
 import Alamofire
 
 enum TeamDetailsEndpoint {
-    /*
-     Add Endpoint
-     case sample
-     case sample(parameter: [String: Any])
-    */
+   case teamDetails(parameters: [String: Any])
 }
 
 extension TeamDetailsEndpoint: IEndpoint {
+    
+    
     var method: HTTPMethod {
-        /*
-        Do like this:
 
         switch self {
-        case .sample:
+        case .teamDetails:
             return .get
         }
-        */
-        return .get
     }
     
     var path: String {
-        /*
-        Do like this:
-
+ 
         switch self {
-        case .sample:
-            return "https://httpbin.org/get"
+        case .teamDetails(let parameters):
+            guard let id = parameters["team_id"] else {
+                return ""
+            }
+            return Constant.base + Constant.version + "teams/" + "\(id)"
         }
-        */
-        return ""
+     
     }
     
     var image: UIImage? {
@@ -49,40 +43,24 @@ extension TeamDetailsEndpoint: IEndpoint {
     }
     
     var parameter: Parameters? {
-        /*
-        Do like this:
-
-        switch self {
-        case .sample(let model):
-            return model.parameter()
-        }
-        */
+      
         return nil
     }
     
     var header: HTTPHeaders? {
-        /*
-        Do like this:
-
         switch self {
-        case .sample:
-            return ["key": Any]
+        case .teamDetails:
+            return ["X-Auth-Token": Constant.token]
         }
-        */
-        return nil
     }
+   
     
-    var encoding: ParameterEncoding {        
-        /*
-        Do like this:
-        
-        return URLEncoding.queryString for URL Query
-        
+    var encoding: ParameterEncoding {
+ 
         switch self {
-        case .sample:
+        case .teamDetails:
             return JSONEncoding.default
         }
-        */
-        return JSONEncoding.default
+
     }
 }

@@ -9,7 +9,7 @@ import XCTest
 @testable import FootballLeague
 import OHHTTPStubs
 
-class FootballLeagueTests: XCTestCase {
+class ListOfTeamsTest: XCTestCase {
     
 
     override func setUp() {

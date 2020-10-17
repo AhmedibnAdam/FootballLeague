@@ -11,9 +11,27 @@
 import Foundation
 
 protocol ITeamDetailsWorker: class {
-	// do someting...
+    func getTeamDetails(parameters: [String: Any], complition :  @escaping (_ error:Error? ,_ success: Bool,_ data: TeamDetailsModel.Response?)->Void)
 }
 
 class TeamDetailsWorker: ITeamDetailsWorker {
-	// do someting...
+    func getTeamDetails(parameters: [String: Any], complition :  @escaping (_ error:Error? ,_ success: Bool,_ data: TeamDetailsModel.Response?)->Void){
+        NetworkService.share.request(endpoint: TeamDetailsEndpoint.teamDetails(parameters: parameters), success: { (responseData) in
+            let response = responseData
+            do {
+                let decoder = JSONDecoder()
+                let data = try decoder.decode(TeamDetailsModel.Response.self, from: response)
+                print(data)
+                complition(nil, true, data)
+                
+            } catch let error {
+                print(error)
+                complition(nil, true, nil)
+            }
+            
+        }) { (error) in
+            print(error as Any)
+             complition(nil, true, nil)
+        }
+    }
 }

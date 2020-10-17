@@ -11,7 +11,7 @@
 import UIKit
 
 protocol ITeamDetailsPresenter: class {
-	// do someting...
+    func showTeamDetails(team: TeamDetailsModel.Response)
 }
 
 class TeamDetailsPresenter: ITeamDetailsPresenter {	
@@ -20,4 +20,7 @@ class TeamDetailsPresenter: ITeamDetailsPresenter {
 	init(view: ITeamDetailsViewController?) {
 		self.view = view
 	}
+    func showTeamDetails(team: TeamDetailsModel.Response){
+        view?.showTeamDetails(team: team)
+    }
 }
