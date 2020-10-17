@@ -12,9 +12,6 @@ import RealmSwift
 class RealmManager {
     private init(){}
     static var shared = RealmManager()
-    
-    
-    
     enum AddResult {
         case success, fail
     }
@@ -33,7 +30,6 @@ class RealmManager {
             compleion(.fail)
         }
     }
-    
     
     func getObjectOf<T>(type : T.Type) -> [T] where T: Object {
         do { let realm = try Realm()

@@ -9,7 +9,6 @@
 import Foundation
 import  RealmSwift
 
-
 extension Object {
     func safeWrite (operation: ()->()){
         if let realm = realm {

@@ -14,6 +14,7 @@ import UIKit
 protocol IListOfTeamsViewController: class {
 	var router: IListOfTeamsRouter? { get set }
     func showTeams(teams: ListOfTeamsModel.Response)
+    func showTeams(teams: [RealmListOfTeams])
 }
 
 class ListOfTeamsViewController: UIViewController {
@@ -24,8 +25,10 @@ class ListOfTeamsViewController: UIViewController {
     var currentPage : Int = 0
     var count = 6
     var isLoadingList : Bool = false
+    var isOFFLine = false
     var teamsArr: [ListOfTeamsModel.Team] = []
-    
+    var teamsRealmArr: [Team] = []
+    var realmLeagues: [RealmListOfTeams]?
     // MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
@@ -43,10 +46,20 @@ class ListOfTeamsViewController: UIViewController {
 }
 
 extension ListOfTeamsViewController: IListOfTeamsViewController {
+    func showTeams(teams: [RealmListOfTeams]) {
+        isOFFLine = true
+      
+        self.realmLeagues = teams
+        
+        getListFromArray(currentPage)
+    }
+    
     func showTeams(teams: ListOfTeamsModel.Response) {
+        isOFFLine = false
         guard let teamsList = teams.teams else {
             return
         }
+        interactor?.addListOfTeamsToCash(teams: teams)
         for team in teamsList{
             teamsArr.append(team)
         }
@@ -62,7 +75,12 @@ extension ListOfTeamsViewController: IListOfTeamsViewController {
      }
   
     func getTeam(){
-        interactor?.getTeams()
+        if Reachability.isConnectedToNetwork(){
+            interactor?.getTeams()
+        }else{
+            interactor?.getTeams()
+        }
+        
     }
 }
 
@@ -87,7 +105,12 @@ extension ListOfTeamsViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         count = count * currentPage
         if count > 20 {
-            return teamsArr.count
+            if isOFFLine {
+                return teamsRealmArr.count
+            }
+            else{
+                return teamsArr.count
+            }
         }
         return count
     }
@@ -95,11 +118,21 @@ extension ListOfTeamsViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TeamTableViewCell", for: indexPath) as! TeamTableViewCell
         
-        let team = teamsArr[indexPath.row]
-        cell.teamName.text = team.name
-        cell.clubColor.text = team.clubColors
-        cell.teamWESite.setTitle(team.website, for: .normal)
-        cell.venu.text = team.venue
+        if isOFFLine {
+            let team = self.realmLeagues![1].teams[indexPath.row]
+            cell.teamName.text = team.name
+            cell.clubColor.text = team.clubColors
+            cell.teamWESite.setTitle(team.website, for: .normal)
+            cell.venu.text = team.venue
+        }
+        else{
+            let team = teamsArr[indexPath.row]
+            cell.teamName.text = team.name
+            cell.clubColor.text = team.clubColors
+            cell.teamWESite.setTitle(team.website, for: .normal)
+            cell.venu.text = team.venue
+        }
+       
         return cell
     }
 

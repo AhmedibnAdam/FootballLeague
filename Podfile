@@ -11,7 +11,6 @@ target 'FootballLeague' do
   pod 'SwiftyJSON'
   pod 'RealmSwift', '~> 5.4.8'
   pod 'OHHTTPStubs/Swift'
-
   
   
   target 'FootballLeagueTests' do
