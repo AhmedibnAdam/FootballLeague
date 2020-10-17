@@ -3,12 +3,13 @@
 //  FootballLeague
 //
 //  Created by Adam on 10/17/20.
-//
+//  Copyright (c) 2020 ___ORGANIZATIONNAME___. All rights reserved.
+//  Modify By:  * Ahmed Adam
+//              * ibn.abuadam@gmail.com
+//              * https://github.com/AhmedibnAdam
 
 import Foundation
 import RealmSwift
-
-
 
 // MARK: - Response
 class ListOfTeams: Codable {

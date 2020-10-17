@@ -17,7 +17,8 @@ class ListOfTeamsConfiguration {
         let router = ListOfTeamsRouter(view: controller)
         let presenter = ListOfTeamsPresenter(view: controller)
         let worker = ListOfTeamsWorker()
-        let interactor = ListOfTeamsInteractor(presenter: presenter, worker: worker)
+        let realmWorker = RealmListOfTeamsWorker()
+        let interactor = ListOfTeamsInteractor(presenter: presenter, worker: worker, realmWorker: realmWorker)
         
         controller.interactor = interactor
         controller.router = router

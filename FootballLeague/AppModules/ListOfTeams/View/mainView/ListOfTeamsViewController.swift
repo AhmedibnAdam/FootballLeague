@@ -131,12 +131,14 @@ extension ListOfTeamsViewController: UITableViewDelegate, UITableViewDataSource 
         return tableView.frame.size.height / 6
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let teamID = teamsArr[indexPath.row].id else {
-            return
+        if !isOFFLine {
+            guard let teamID = teamsArr[indexPath.row].id else {
+                return
+            }
+            var parameters = [String: Any]()
+            parameters["team_id"] = teamID
+            router?.navigateToTeamDetails(parameters: parameters)
         }
-        var parameters = [String: Any]()
-        parameters["team_id"] = teamID
-        router?.navigateToTeamDetails(parameters: parameters)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -11,7 +11,7 @@
 import UIKit
 
 protocol IListOfTeamsInteractor: class {
-	var parameters: [String: Any]? { get set }
+    var parameters: [String: Any]? { get set }
     func getTeams()
     func addListOfTeamsToCash(teams: ListOfTeamsModel.Response)
 }
@@ -19,14 +19,15 @@ protocol IListOfTeamsInteractor: class {
 class ListOfTeamsInteractor: IListOfTeamsInteractor {
     var presenter: IListOfTeamsPresenter?
     var worker: IListOfTeamsWorker?
+    var realmWorker: IRealmListOfTeamsWorker?
     var parameters: [String: Any]?
-
-    init(presenter: IListOfTeamsPresenter, worker: IListOfTeamsWorker) {
-    	self.presenter = presenter
-    	self.worker = worker
+    
+    init(presenter: IListOfTeamsPresenter, worker: IListOfTeamsWorker,realmWorker:IRealmListOfTeamsWorker ) {
+        self.presenter = presenter
+        self.worker = worker
+        self.realmWorker = realmWorker
     }
     func getTeams(){
-        
         if Reachability.isConnectedToNetwork(){
             worker?.getTeams(complition: { (error, success, teams) in
                 if success {
@@ -36,45 +37,33 @@ class ListOfTeamsInteractor: IListOfTeamsInteractor {
                     self.presenter?.showTeams(teams: teamsData)
                 }
                 else {
-                    self.presenter?.showTeams()
+                    self.getTeamsFromRealm()
                 }
             })
-
         }else{
-            self.presenter?.showTeams()
+            getTeamsFromRealm()
         }
     }
+    
+    func getTeamsFromRealm(){
+        realmWorker?.getTeams(complition: { (error, success, data) in
+                if success {
+                    guard let teamsData = data else {
+                        return
+                    }
+                    self.presenter?.showTeams(teams: teamsData)
+                }
+        })
+    }
+    
+
+    
     func addListOfTeamsToCash(teams: ListOfTeamsModel.Response) {
-        
-        let realmObject = RealmListOfTeams()
-      
-        realmObject.count = teams.count ?? 0
-
-        for team in teams.teams! {
-            let realmTeam = Team()
-            realmTeam.id = team.id!
-            realmTeam.address =  team.address!
-            realmTeam.clubColors = team.clubColors!
-//            realmTeam.crestURL = team.email!
-            realmTeam.email = team.name!
-            realmTeam.phone = team.shortName!
-            realmTeam.tla = team.tla!
-            realmTeam.venue = team.venue!
-            realmTeam.website = team.website!
-            
-            realmObject.teams.append(realmTeam)
-        }
-
-        RealmManager.shared.addObject(realmObject: realmObject , andCompletion : {
-            (addResult) in
-            print(addResult)
-        } )
+        realmWorker?.cashTeamsList(teams)
     }
+ 
+    
     func removeTeamsFromCash(teams: RealmListOfTeams ){
-        
-        RealmManager.shared.removeObject(realmObject: teams , andCompletion : {
-            (result) in
-            print(result)
-        } )
+        realmWorker?.removeTeamsListFromCash(teams)
     }
 }

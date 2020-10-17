@@ -16,13 +16,14 @@ protocol ITeamDetailsViewController: class {
 }
 
 class TeamDetailsViewController: UIViewController {
+    // MARK: - Variables
     var interactor: ITeamDetailsInteractor?
     var router: ITeamDetailsRouter?
     lazy var back: UIBarButtonItem = {
         return UIBarButtonItem(title: "⬅︎", style: .done, target: self, action: #selector(backAction))
     }()
     var team: TeamDetailsModel.Response?
-    
+    // MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var name: UILabel!
@@ -37,6 +38,7 @@ class TeamDetailsViewController: UIViewController {
     @IBOutlet weak var webSite: UIButton!
     @IBOutlet weak var crestUrl: UIButton!
     
+    // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
@@ -44,10 +46,8 @@ class TeamDetailsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         getTeamDetails()
     }
-    func getTeamDetails() {
-        interactor?.getTeamDetails()
-    }
 
+    // MARK: - Actions
     @IBAction func goTOCrestURL(_ sender: UIButton) {
         guard let url = team?.crestURL else {
             return
@@ -67,11 +67,7 @@ class TeamDetailsViewController: UIViewController {
         }
         OpenURl(url: url)
     }
-    fileprivate func OpenURl(url: String) {
-        if let url = URL(string: url) {
-            UIApplication.shared.open(url)
-        }
-    }
+   
     @objc func backAction() {
         self.dismiss()
     }
@@ -115,9 +111,20 @@ extension TeamDetailsViewController {
         let cell = UINib(nibName: "CompetitionsCollectionViewCell", bundle: nil)
         collectionView.register(cell, forCellWithReuseIdentifier: "CompetitionsCollectionViewCell")
     }
+ 
+}
+extension TeamDetailsViewController{
+    func getTeamDetails() {
+        interactor?.getTeamDetails()
+    }
     func reloadData() {
         tableView.reloadData()
         collectionView.reloadData()
+    }
+    fileprivate func OpenURl(url: String) {
+        if let url = URL(string: url) {
+            UIApplication.shared.open(url)
+        }
     }
 }
 extension TeamDetailsViewController: UITableViewDelegate, UITableViewDataSource {
