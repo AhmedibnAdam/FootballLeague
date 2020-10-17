@@ -26,7 +26,7 @@ class ListOfTeamsPresenter: IListOfTeamsPresenter {
         view?.showTeams(teams: teams)
     }
     func showTeams() {
-        let retrivedData = RealmManager.shared.getObjectOf(type: RealmListOfTeams.self)
+        guard let retrivedData = RealmManager.shared.getObjectOf(type: RealmListOfTeams.self).last else {return}
         
         view?.showTeams(teams: retrivedData)
         print(retrivedData)
