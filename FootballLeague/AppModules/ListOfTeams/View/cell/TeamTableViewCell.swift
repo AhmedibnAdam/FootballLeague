@@ -1,0 +1,30 @@
+//
+//  TeamTableViewCell.swift
+//  FootballLeague
+//
+//  Created by Adam on 10/17/20.
+//
+
+import UIKit
+
+class TeamTableViewCell: UITableViewCell {
+    
+    // MARK: - Outlets
+    @IBOutlet weak var teamName: UILabel!
+    @IBOutlet weak var teamWESite: UIButton!
+    @IBOutlet weak var clubColor: UILabel!
+    @IBOutlet weak var venu: UILabel!
+ 
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
+    }
+    
+}

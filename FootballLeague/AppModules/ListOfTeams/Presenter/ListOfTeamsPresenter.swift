@@ -11,7 +11,7 @@
 import UIKit
 
 protocol IListOfTeamsPresenter: class {
-	// do someting...
+    func showTeams(teams: ListOfTeamsModel.Response)
 }
 
 class ListOfTeamsPresenter: IListOfTeamsPresenter {	
@@ -20,4 +20,7 @@ class ListOfTeamsPresenter: IListOfTeamsPresenter {
 	init(view: IListOfTeamsViewController?) {
 		self.view = view
 	}
+    func showTeams(teams: ListOfTeamsModel.Response){
+        view?.showTeams(teams: teams)
+    }
 }
