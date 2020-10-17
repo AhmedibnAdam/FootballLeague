@@ -25,7 +25,7 @@ DEPENDENCIES:
   - Alamofire (~> 4.9.1)
   - IQKeyboardManagerSwift
   - OHHTTPStubs/Swift
-  - RealmSwift (~> 5.4.2)
+  - RealmSwift (~> 5.4.8)
   - SwiftyJSON
 
 SPEC REPOS:
@@ -45,6 +45,6 @@ SPEC CHECKSUMS:
   RealmSwift: 15ddd6b3398ebfc99810811c44f095df1313adb3
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: 3b1bef9b7b523b1cd11a2344ebff1be267383b32
+PODFILE CHECKSUM: 6a0f05fde7a66763283762e5f71655cbb50d07d6
 
 COCOAPODS: 1.9.3

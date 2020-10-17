@@ -12,6 +12,7 @@ import UIKit
 
 protocol IListOfTeamsInteractor: class {
 	var parameters: [String: Any]? { get set }
+    func getTeams()
 }
 
 class ListOfTeamsInteractor: IListOfTeamsInteractor {
@@ -22,5 +23,18 @@ class ListOfTeamsInteractor: IListOfTeamsInteractor {
     init(presenter: IListOfTeamsPresenter, worker: IListOfTeamsWorker) {
     	self.presenter = presenter
     	self.worker = worker
+    }
+    func getTeams(){
+        worker?.getTeams(complition: { (error, success, teams) in
+            if success {
+                guard let teamsData = teams else {
+                    return
+                }
+                self.presenter?.showTeams(teams: teamsData)
+            }
+            else {
+                
+            }
+        })
     }
 }
